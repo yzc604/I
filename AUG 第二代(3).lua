@@ -52,54 +52,78 @@ about:Label("这里向神青道歉")
 about:Label("现在脚本越来越少很多大牛不做了那我要创作新的脚本")
 about:Label("本脚本为缝合脚本完全免费买了就是⭕")
 
-local Tab =Window:MakeTab({
+about:Button("点我复制AUG脚本QQ官群",function()
+    setclipboard("908361596")
+end)
 
-	Name = "作者QQ在这里",
-
-	Icon = "rbxassetid://16060333448",
-
-	PremiumOnly = false
-
-})
-
-Tab:AddButton({
-
-	Name = "复制作者QQ",
-
-	Callback = function()
-
-     setclipboard("3990117600")
-
-  	end
-
-})
-
-Tab:AddButton({
-
-	Name = "复制QQ群",
-
-	Callback = function()
-
-     setclipboard("3990117600")
-
-  	end
-
-})
-
-local about = UITab1:section("『玩家信息』",false)
+local about = UITab3:section("『玩家信息』",false)
 
 about:Label("你现在的服务器id:"..game.GameId)
 
-local UITab2 = win:Tab("『公告』",'7734068321')
+local UITab4 = win:Tab("『公告』",'7734068321')
 
-local about = UITab2:section("『公告』",true)
+local about = UITab4:section("『公告』",true)
 
 about:Label("感谢支持AUT脚本的人")
 about:Label("测试脚本阶段有问题告诉作者")
 
-local UITab3 = win:Tab("『通用』",'7734068321')
 
-local about = UITab3:section("『通用』",true)
+
+local UITab5 = win:Tab("『通用』",'7734068321')
+
+local about = UITab5:section("『通用』",true)
+
+local Players = about:Dropdown("选择玩家", 'Dropdown', dropdown, function(v)
+    playernamedied = v
+end)
+
+game.Players.ChildAdded:Connect(function(player)
+    dropdown[player.UserId] = player.Name
+    Players:AddOption(player.Name)
+end)
+
+game.Players.ChildRemoved:Connect(function(player)
+    Players:RemoveOption(player.Name)
+    for k, v in pairs(dropdown) do
+        if v == player.Name then
+            dropdown[k] = nil
+        end
+    end
+end)
+
+about:Button("传送到玩家旁边", function()
+    local HumRoot = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local tp_player = game.Players:FindFirstChild(playernamedied)
+    if tp_player and tp_player.Character and tp_player.Character.HumanoidRootPart then
+        HumRoot.CFrame = tp_player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+        Notify("AUG", "已经传送到玩家身边", "rbxassetid://", 5)
+    else
+        Notify("AUG", "无法传送 玩家已消失", "rbxassetid://", 5)
+    end
+end)
+
+about:Button("把玩家传送过来", function()
+    local HumRoot = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local tp_player = game.Players:FindFirstChild(playernamedied)
+    if tp_player and tp_player.Character and tp_player.Character.HumanoidRootPart then
+        tp_player.Character.HumanoidRootPart.CFrame = HumRoot.CFrame + Vector3.new(0, 3, 0)
+        Notify("AUG", "已传送过来", "rbxassetid://", 5)
+    else
+        Notify("AUG", "无法传送 玩家已消失", "rbxassetid://", 5)
+    end
+end)
+
+about:Toggle("查看玩家", 'Toggleflag', false, function(state)
+    if state then
+        game:GetService('Workspace').CurrentCamera.CameraSubject =
+            game:GetService('Players'):FindFirstChild(playernamedied).Character.Humanoid
+            Notify("AUG", "已开启", "rbxassetid://", 5)
+    else
+        Notify("AUG", "已关闭", "rbxassetid://", 5)
+        local lp = game.Players.LocalPlayer
+        game:GetService('Workspace').CurrentCamera.CameraSubject = lp.Character.Humanoid
+    end
+end)
 
 about:Slider("步行速度!", "WalkSpeed", game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, 16, 400, false, function(Speed)
   spawn(function() while task.wait() do game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Speed end end)
@@ -117,8 +141,146 @@ about:Button("获得管理员权限",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/sZpgTVas"))()
 end)
 
+about:Button("工具挂",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Bebo-Mods/BeboScripts/main/StandAwekening.lua"))()
+
 about:Button("死亡笔记",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/dingding123hhh/tt/main/%E6%AD%BB%E4%BA%A1%E7%AC%94%E8%AE%B0%20(1).txt"))()
+end)
+
+about:Button("转圈",function()
+loadstring(game:HttpGet('https://pastebin.com/raw/r97d7dS0', true))()
+end)
+
+about:Button("紫莎",function()
+game.Players.LocalPlayer.Character.Humanoid.Health=0
+end)
+
+about:Button("位置仪",function()
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local title = Instance.new("TextLabel")
+local copy = Instance.new("TextButton")
+local pos = Instance.new("TextBox")
+local find = Instance.new("TextButton")
+ 
+--Properties:
+ 
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ 
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(43, 43, 43)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.639646292, 0, 0.399008662, 0)
+Frame.Size = UDim2.new(0, 387, 0, 206)
+Frame.Active = true
+ 
+title.Name = "title"
+title.Parent = Frame
+title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+title.BorderSizePixel = 0
+title.Size = UDim2.new(0, 387, 0, 50)
+title.Font = Enum.Font.GothamBold
+title.Text = "位置仪"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextSize = 30.000
+title.TextWrapped = true
+ 
+copy.Name = "copy"
+copy.Parent = Frame
+copy.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+copy.BorderSizePixel = 0
+copy.Position = UDim2.new(0.527131796, 0, 0.635922313, 0)
+copy.Size = UDim2.new(0, 148, 0, 50)
+copy.Font = Enum.Font.GothamSemibold
+copy.Text = "复制"
+copy.TextColor3 = Color3.fromRGB(255, 255, 255)
+copy.TextSize = 20.000
+ 
+pos.Name = "pos"
+pos.Parent = Frame
+pos.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+pos.BorderSizePixel = 0
+pos.Position = UDim2.new(0.0904392749, 0, 0.305825233, 0)
+pos.Size = UDim2.new(0, 317, 0, 50)
+pos.Font = Enum.Font.GothamSemibold
+pos.Text = ""
+pos.TextColor3 = Color3.fromRGB(255, 255, 255)
+pos.TextSize = 14.000
+pos.TextWrapped = true
+ 
+find.Name = "find"
+find.Parent = Frame
+find.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+find.BorderSizePixel = 0
+find.Position = UDim2.new(0.0904392898, 0, 0.635922313, 0)
+find.Size = UDim2.new(0, 148, 0, 50)
+find.Font = Enum.Font.GothamSemibold
+find.Text = "查找当前位置"
+find.TextColor3 = Color3.fromRGB(255, 255, 255)
+find.TextSize = 20.000
+ 
+-- Scripts:
+ 
+local function UMTQ_fake_script() -- copy.LocalScript 
+	local script = Instance.new('LocalScript', copy)
+ 
+	script.Parent.MouseButton1Click:Connect(function()
+		setclipboard(script.Parent.Parent.pos.Text)
+	end)
+end
+coroutine.wrap(UMTQ_fake_script)()
+local function KJAYG_fake_script() -- Frame.Dragify 
+	local script = Instance.new('LocalScript', Frame)
+ 
+	local UIS = game:GetService("UserInputService")
+	function dragify(Frame)
+	    dragToggle = nil
+	    local dragSpeed = 0
+	    dragInput = nil
+	    dragStart = nil
+	    local dragPos = nil
+	    function updateInput(input)
+	        local Delta = input.Position - dragStart
+	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.25), {Position = Position}):Play()
+	    end
+	    Frame.InputBegan:Connect(function(input)
+	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+	            dragToggle = true
+	            dragStart = input.Position
+	            startPos = Frame.Position
+	            input.Changed:Connect(function()
+	                if input.UserInputState == Enum.UserInputState.End then
+	                    dragToggle = false
+	                end
+	            end)
+	        end
+	    end)
+	    Frame.InputChanged:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	            dragInput = input
+	        end
+	    end)
+	    game:GetService("UserInputService").InputChanged:Connect(function(input)
+	        if input == dragInput and dragToggle then
+	            updateInput(input)
+	        end
+	    end)
+	end
+ 
+	dragify(script.Parent)
+end
+coroutine.wrap(KJAYG_fake_script)()
+local function EKBNYI_fake_script() -- find.LocalScript 
+	local script = Instance.new('LocalScript', find)
+ 
+	script.Parent.MouseButton1Down:Connect(function()
+		script.Parent.Parent.pos.Text = tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+	end)
+end
+coroutine.wrap(EKBNYI_fake_script)()
 end)
 
 about:Button("汉化穿墙",function()
@@ -326,9 +488,97 @@ about:Button("6r",function()
 loadstring(game:HttpGet("https://pastefy.app/wa3v2Vgm/raw"))()
 end)
 
-local UITab1 = win:Tab("FE",'7734068321')
+local UITab6 = win:Tab("『自瞄范围』",'7734068321')
 
-local about = UITab1:section("FE",true)
+local about = UITab6:section("『自瞄范围』",true)
+
+about:Button("宙斯自瞄",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
+end)
+
+about:Button("英文自瞄",function()
+loadstring(game:HttpGet("https://rentry.co/n55gmtpi/raw", true))()
+end)
+
+about:Button("50",function()
+loadstring(game:HttpGet("https://pastefy.app/b3uXjRF6/raw",false))()
+end)
+
+about:Button("100",function()
+loadstring(game:HttpGet("https://pastefy.app/tQrd2r0L/raw",false))()
+end)
+
+about:Button("150",function()
+loadstring(game:HttpGet("https://pastefy.app/UOQWFvGp/raw",false))()
+end)
+
+about:Button("200",function()
+oadstring(game:HttpGet("https://pastefy.app/b5CuDuer/raw",false))()
+end)
+
+about:Button("250",function()
+loadstring(game:HttpGet("https://pastefy.app/p2huH7eF/raw",false))()
+end)
+
+about:Button("300",function()
+loadstring(game:HttpGet("https://pastefy.app/nIyVhrvV/raw",false))()
+end)
+
+about:Button("350",function()
+loadstring(game:HttpGet("https://pastefy.app/pnjKHMvV/raw",false))()
+end)
+
+about:Button("400",function()
+loadstring(game:HttpGet("https://pastefy.app/LQuP7sjj/raw",false))()
+end)
+
+about:Button("600",function()
+loadstring(game:HttpGet("https://pastefy.app/WmcEe2HB/raw",false))()
+end)
+
+about:Button("下面是范围",function()
+
+end)
+
+about:Textbox("自定义范围!", "HitBox", "输入", function(Value)
+   _G.HeadSize = Value
+    _G.Disabled = true 
+   game:GetService('RunService').RenderStepped:connect(function()
+    if _G.Disabled then
+    for i,v in next, game:GetService('Players'):GetPlayers() do
+    if v.Name ~= game:GetService('Players').LocalPlayer.Name then 
+    pcall(function()
+    v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize) 
+   v.Character.HumanoidRootPart.Transparency = 0.7 
+   v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really red")
+    v.Character.HumanoidRootPart.Material = "Neon"
+    v.Character.HumanoidRootPart.CanCollide = false
+    end)
+    end 
+   end 
+   end
+    end)
+end)
+
+about:Button("普通范围",function()
+loadstring(game:HttpGet("https://pastebin.com/raw/jiNwDbCN"))()
+end)
+
+about:Button("中等范围",function()
+loadstring(game:HttpGet("https://pastebin.com/raw/jiNwDbCN"))()
+end)
+
+about:Button("全图范围",function()
+loadstring(game:HttpGet("https://pastebin.com/raw/KKY9EpZU"))()
+end)
+
+about:Button("终极范围",function()
+loadstring(game:HttpGet("https://pastebin.com/raw/CAQ9x4A7"))()
+end)
+
+local UITab7 = win:Tab("FE",'7734068321')
+
+local about = UITab7:section("FE",true)
 
 about:Button("FE C00lgui",function()
 loadstring(game:GetObjects("rbxassetid://97896659024899")[1].Source)()
@@ -384,9 +634,9 @@ about:Button("FE",function()
 loadstring(game:HttpGet('https://pastefy.ga/a7RTi4un/raw'))()
 end)
 
-local UITab1 = win:Tab("脚本大全",'7734068321')
+local UITab8 = win:Tab("脚本大全",'7734068321')
 
-local about = UITab1:section("脚本大全",true)
+local about = UITab8:section("脚本大全",true)
 
 about:Button("皮脚本",function()
 getgenv().XiaoPi="皮脚本QQ群894995244" loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/QQ1002100032-Roblox-Pi-script.lua"))()
@@ -424,9 +674,40 @@ about:Button("叶河北唐县脚本",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/roblox-ye/QQ515966991/refs/heads/main/YE%20SCRIPT-Tang%20County%2C%20Hebei.lua"))()
 end)
 
-local UITab1 = win:Tab("伐木大亨2",'7734068321')
+local UITab8 = win:Tab("『画质光影』",'16060333448')
 
-local about = UITab1:section("伐木大亨2",true)
+local about = UITab8:section("『画质光影』",false)
+
+about:Button("光影", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Graphics.xml"))()
+end)
+
+about:Button("光影滤镜", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Graphics.xml"))()
+end)
+
+about:Button("超高画质",function()
+loadstring(game:HttpGet("https://pastebin.com/raw/jHBfJYmS"))()
+end)
+
+about:Button("光影V4",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Graphics.xml"))()
+end)
+
+about:Button("RTX高仿",function()
+loadstring(game:HttpGet('https://pastebin.com/raw/Bkf0BJb3'))()
+end)
+
+about:Button("光影深", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MZEEN2424/Graphics/main/Graphics.xml"))()
+end)
+about:Button("光影浅", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/jHBfJYmS"))()
+end)
+
+local UITab9 = win:Tab("伐木大亨2",'7734068321')
+
+local about = UITab9:section("伐木大亨2",true)
 
 about:Button("伐木大亨1",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/p9mEnV28"))()
@@ -444,9 +725,9 @@ about:Button("伐木大亨4",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/XiaoYunCN/UWU/main/LuaWare.lua", true))()
 end)
 
-local UITab1 = win:Tab("自然灾害",'7734068321')
+local UITab10 = win:Tab("自然灾害",'7734068321')
 
-local about = UITab1:section("自然灾害",true)
+local about = UITab10:section("自然灾害",true)
 
 about:Button("自然灾害1",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/2dgeneralspam1/scripts-and-stuff/master/scripts/LoadstringUjHI6RQpz2o8", true))()
@@ -460,9 +741,9 @@ about:Button("自然灾害3",function()
 loadstring(game:HttpGet("https://gist.githubusercontent.com/TurkOyuncu99/7c75386107937fa006304efd24543ad4/raw/8d759dfcd95d39949c692735cfdf62baec0bf835/cafwetweg", true))()
 end)
 
-local UITab1 = win:Tab("doors",'7734068321')
+local UITab11 = win:Tab("doors",'7734068321')
 
-local about = UITab1:section("doors",true)
+local about = UITab11:section("doors",true)
 
 about:Button("doors1",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/GamingScripter/Darkrai-X/main/Games/Doors"))()
@@ -492,9 +773,9 @@ about:Button("doors6",function()
 loadstring(game:HttpGet("https://github.com/DocYogurt/Main/raw/main/Scripts/DF2RW.lua"))()
 end)
 
-local UITab1 = win:Tab("压力",'7734068321')
+local UITab12 = win:Tab("压力",'7734068321')
 
-local about = UITab1:section("压力",true)
+local about = UITab12:section("压力",true)
 
 about:Button("万圣节",function()
 loadstring(game:HttpGet("\104\116\116\112\115\58\47\47\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\67\104\105\110\97\81\89\47\83\99\114\105\112\116\115\47\77\97\105\110\47\80\114\101\115\115\117\114\101"))()
@@ -512,9 +793,9 @@ about:Button("压力4",function()
 getgenv().lishichuan="1001390385" loadstring(game:HttpGet("https://pastebin.com/raw/iZuasZCc"))()
 end)
 
-local UITab1 = win:Tab("造船寻宝",'7734068321')
+local UITab13 = win:Tab("造船寻宝",'7734068321')
 
-local about = UITab1:section("造船寻宝",true)
+local about = UITab13:section("造船寻宝",true)
 
 about:Button("造船寻宝1",function()
 spawn(function()local guiinf = game:GetService("Players").LocalPlayer.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame_G.Blocks = falsewhile game:GetService("RunService").RenderStepped:wait() do   if _G.Blocks then return end       for i,v in pairs(guiinf:GetDescendants()) do               if v.Name == "AmountText" then               v.Text = math.huge           end       end   endend)
@@ -532,9 +813,9 @@ about:Button("造船寻宝4",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaoxuxu2333/RobloxScripts/main/src/Build A Boat For Treasure/RepeatTool.lua"))()
 end)
 
-local UITab1 = win:Tab("尘土飞扬的旅行",'7734068321')
+local UITab14 = win:Tab("尘土飞扬的旅行",'7734068321')
 
-local about = UITab1:section("尘土飞扬的旅行",true)
+local about = UITab14:section("尘土飞扬的旅行",true)
 
 about:Button("尘土飞扬的旅行1",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/artemy133563/Utilities/main/ADustyTrip",true))()
@@ -544,33 +825,33 @@ about:Button("尘土飞扬的旅行2",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AbdouGG/dustytripv1/main/beta"))()
 end)
 
-local UITab1 = win:Tab("饥饿的艺术家",'7734068321')
+local UITab15 = win:Tab("饥饿的艺术家",'7734068321')
 
-local about = UITab1:section("饥饿的艺术家",true)
+local about = UITab15:section("饥饿的艺术家",true)
 
 about:Button("饥饿的艺术家",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperRegex/RobloxScripts/main/DrawingScript.lua"))()
 end)
 
-local UITab1 = win:Tab("餐厅大亨2",'7734068321')
+local UITab16 = win:Tab("餐厅大亨2",'7734068321')
 
-local about = UITab1:section("餐厅大亨2",true)
+local about = UITab16:section("餐厅大亨2",true)
 
 about:Button("餐厅大亨2",function()
 loadstring(game:httpget("https://raw.githubusercontent.com/LabibKazi858/Scripts/main/Restaurant%20Tycoon%202", true))()
 end)
 
-local UITab1 = win:Tab("北约蜂群模拟器",'7734068321')
+local UITab17 = win:Tab("北约蜂群模拟器",'7734068321')
 
-local about = UITab1:section("北约蜂群模拟器",true)
+local about = UITab17:section("北约蜂群模拟器",true)
 
 about:Button("",function()
 loadstring(game:HttpGet("https://rahttps://rahttps://raw.githubusercontent.com/USA868/USA--/main/.github/%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/1%E6%9D%96%E4%BA%BA%E4%BD%BF%E7%94%A8?token=GHSAT0AAAAAACB6LLQWA5JNQNNWTP47AOWSZCLYRTQ"))()
 end)
 
-local UITab1 = win:Tab("监狱人生",'7734068321')
+local UITab18 = win:Tab("监狱人生",'7734068321')
 
-local about = UITab1:section("监狱人生",true)
+local about = UITab18:section("监狱人生",true)
 
 about:Button("监狱人生",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Denverrz/scripts/master/PRISONWARE_v1.3.txt"))();
@@ -588,25 +869,25 @@ about:Button("监狱人生4",function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/h17s3/TIGERADMIN/main/TIGERADMINSCRIPTFREE'),true))()
 end)
 
-local UITab1 = win:Tab("幸运战场",'7734068321')
+local UITab19 = win:Tab("幸运战场",'7734068321')
 
-local about = UITab1:section("幸运战场",true)
+local about = UITab19:section("幸运战场",true)
 
 about:Button("幸运战场",function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/zeuise0002/SSSWWW222/main/README.md'),true))()
 end)
 
-local UITab1 = win:Tab("脚本搜索",'7734068321')
+local UITab20 = win:Tab("脚本搜索",'7734068321')
 
-local about = UITab1:section("脚本搜索",true)
+local about = UITab20:section("脚本搜索",true)
 
 about:Button("脚本搜索",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/ScriptSearcher"))()
 end)
 
-local UITab1 = win:Tab("鲨口求生",'7734068321')
+local UITab21 = win:Tab("鲨口求生",'7734068321')
 
-local about = UITab1:section("鲨口求生",true)
+local about = UITab21:section("鲨口求生",true)
 
 about:Button("鲨口求生1",function()
 loadstring(game:HttpGet("https://pastebin.com/raw/YYVLbzVg", true))()
@@ -620,17 +901,17 @@ about:Button("鲨口求生3",function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Lolboxo/SharkBiteV3/main/SharkBiteV3.1'))()
 end)
 
-local UITab1 = win:Tab("军事大亨",'7734068321')
+local UITab22 = win:Tab("军事大亨",'7734068321')
 
-local about = UITab1:section("军事大亨",true)
+local about = UITab22:section("军事大亨",true)
 
 about:Button("军事大亨 查找干扰器",function()
 loadstring(game:HttpGet("https://oopshub.vercel.app/scripts/MT_event_Hacker.lua"))()
 end)
 
-local UITab1 = win:Tab("技能大战2",'7734068321')
+local UITab23 = win:Tab("技能大战2",'7734068321')
 
-local about = UITab1:section("技能大战2",true)
+local about = UITab23:section("技能大战2",true)
 
 about:Button("卡密lMXJsryGVIajsQrMJmaVde3MIUoHCa",function()
 
@@ -640,9 +921,9 @@ about:Button("技能大战2",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/VxleLUA/Dynamic-Offical/main/System/GameChecker.lua"))()
 end)
 
-local UITab1 = win:Tab("最强战场",'7734068321')
+local UITab24 = win:Tab("最强战场",'7734068321')
 
-local about = UITab1:section("最强战场",true)
+local about = UITab24:section("最强战场",true)
 
 about:Button("最强战场",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/LOLking123456/Strongest/main/Battlegrounds77"))()
@@ -652,17 +933,17 @@ about:Button("最强战场卡密",function()
 setclipboard("BestTheStrongest5412Roblox")
 end)
 
-local UITab15 = win:Tab("『死亡球』",'7734068321')
+local UITab25 = win:Tab("『死亡球』",'7734068321')
 
-local about = UITab15:section("『死亡球』",true)
+local about = UITab25:section("『死亡球』",true)
 
 about:Button("死亡球1",function()
 loadstring(game:HttpGet("https://github.com/Hosvile/InfiniX/releases/latest/download/main.lua",true))()
 end)
 
-local UITab14 = win:Tab("『汽车经销大亨』",'7734068321')
+local UITab26 = win:Tab("『汽车经销大亨』",'7734068321')
 
-local about = UITab14:section("『汽车经销大亨』",true)
+local about = UITab26:section("『汽车经销大亨』",true)
 
 about:Button("刷星星",function()
 loadstring(game:HttpGet("https://scriptblox.com/raw/LIMITED!-Car-Dealership-Tycoon-Moon-Team-16181"))()
@@ -672,9 +953,9 @@ about:Button("汽车经销大亨1",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/IExpIoit/Script/main/Car%20Dealership%20Tycoon.lua"))()
 end)
 
-local UITab3 = win:Tab("极速传奇",'7734068321')
+local UITab27 = win:Tab("极速传奇",'7734068321')
 
-local about = UITab3:section("极速传奇",true)
+local about = UITab27:section("极速传奇",true)
 
 about:Button("1",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TtmScripter/GoodScript/main/LegendOfSpeed(Chinese)"))()
@@ -688,9 +969,9 @@ about:Button("越狱",function()
 loadstring(game:GetObjects("rbxassetid://3762448307")[1].Source)()
 end)
 
-local UITab1 = win:Tab("超级大力士模拟器",'7734068321')
+local UITab28 = win:Tab("超级大力士模拟器",'7734068321')
 
-local about = UITab1:section("超级大力士模拟器",true)
+local about = UITab28:section("超级大力士模拟器",true)
 
 about:Button("超级大力士模拟器1",function()
 loadstring(game:HttpGet("https://pastefy.app/aO18ZEB9/raw"))()
@@ -700,17 +981,17 @@ about:Button("超级大力士模拟器2",function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/hngamingroblox/scripts/main/strongman%20simulator'))()
 end)
 
-local UITab1 = win:Tab("感染力微笑",'7734068321')
+local UITab29 = win:Tab("感染力微笑",'7734068321')
 
-local about = UITab1:section("感染力微笑",true)
+local about = UITab29:section("感染力微笑",true)
 
 about:Button("感染力微笑",function()
 loadstring(game:HttpGet("https://pastefy.app/z8mDJJIX/raw"))()
 end)
 
-local UITab1 = win:Tab("躲避",'7734068321')
+local UITab30 = win:Tab("躲避",'7734068321')
 
-local about = UITab1:section("躲避",true)
+local about = UITab30:section("躲避",true)
 
 about:Button("躲避",function()
 loadstring(game:HttpGet("https://pastefy.app/BrdzWOKp/raw"))()
@@ -720,9 +1001,9 @@ about:Button("躲避",function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Dc2-masket27727/Mobile-s-Hub/main/Main/Hydra/Evade.exe"))();
 end)
 
-local UITab1 = win:Tab("火箭发射",'7734068321')
+local UITab31 = win:Tab("火箭发射",'7734068321')
 
-local about = UITab1:section("火箭发射",true)
+local about = UITab31:section("火箭发射",true)
 
 about:Button("火箭发射",function()
 loadstring(game:HttpGet("https://pastefy.app/CMW6b0kZ/raw"))()
@@ -732,17 +1013,17 @@ about:Button("农场",function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/dizyhvh/rbx_scripts/main/321_blast_off_simulator')))()
 end)
 
-local UITab1 = win:Tab("举重模拟器",'7734068321')
+local UITab32 = win:Tab("举重模拟器",'7734068321')
 
-local about = UITab1:section("举重模拟器",true)
+local about = UITab32:section("举重模拟器",true)
 
 about:Button("举重模拟器",function()
 loadstring(game:HttpGet("https://pastefy.app/KSriAk53/raw"))()
 end)
 
-local UITab1 = win:Tab("一路向西",'7734068321')
+local UITab33 = win:Tab("一路向西",'7734068321')
 
-local about = UITab1:section("一路向西",true)
+local about = UITab33:section("一路向西",true)
 
 about:Button("请先加入Na1Xi群组",function()
 loadstring(game:GetObjects("rbxassetid://10040701935")[1].Source)()
@@ -752,18 +1033,36 @@ about:Button("一路向西2",function()
 loadstring(game:HttpGet(("https://raw.githubusercontent.com/Drifter0507/scripts/main/westbound"),true))()
 end)
 
-local UITab1 = win:Tab("内脏与火药",'7734068321')
+local UITab34 = win:Tab("内脏与火药",'7734068321')
 
-local about = UITab1:section("内脏与火药",true)
+local about = UITab34:section("内脏与火药",true)
 
 about:Button("内脏与火药",function()
 loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\40\34\104\116\116\112\115\58\47\47\102\114\101\101\110\111\116\101\46\98\105\122\47\114\97\119\47\109\117\122\110\104\101\114\104\114\117\34\41\44\116\114\117\101\41\41\40\41\10")()
 end)
 
-local UITab1 = win:Tab("彩虹朋友",'7734068321')
+local UITab35 = win:Tab("彩虹朋友",'7734068321')
 
-local about = UITab1:section("彩虹朋友",true)
+local about = UITab35:section("彩虹朋友",true)
 
 about:Button("彩虹朋友",function()
 loadstring(game:HttpGet("https://pastefy.app/2YdrWHxV/raw"))()
 end)
+
+local UITab36 = win:Tab("音乐",'7734068321')
+
+local about = UITab36:section("音乐",true)
+
+about:Button("防空警报", function()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://792323017"
+    sound.Parent = game.Workspace
+    sound:Play()
+    end)
+    
+about:Button("义勇军进行曲", function()
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://1845918434"
+    sound.Parent = game.Workspace
+    sound:Play()
+    end)
